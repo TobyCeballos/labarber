@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import backgroundImage from "./assets/bg.jpeg";
+import style1 from "./assets/style1.jpeg";
+import style2 from "./assets/style2.jpeg";
+import style3 from "./assets/style3.jpeg";
+import style4 from "./assets/style4.jpeg";
 import Marquee from "react-fast-marquee";
 import { FaWhatsapp, FaInstagram, FaFacebook } from "react-icons/fa6";
 import { PiStarFourFill } from "react-icons/pi";
+
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 const isOpen = () => {
   const now = new Date();
@@ -44,6 +51,7 @@ function App() {
   const [isFixed, setIsFixed] = useState(false);
   const [open, setOpen] = useState(isOpen());
 
+  const position = [-37.850109, -58.262135];
   const haircuts = [
     { title: "Volumen" },
     { title: "Fade" },
@@ -105,11 +113,11 @@ function App() {
             <a href="#home" className="ml-4 font-bold text-gray-700">
               Inicio
             </a>
+            <a href="#cortes" className="ml-4 font-bold text-gray-700">
+              Cortes
+            </a>
             <a href="#novedades" className="ml-4 font-bold text-gray-700">
               Información
-            </a>
-            <a href="#galeria" className="ml-4 font-bold text-gray-700">
-              Galería
             </a>
             <a
               href="#contacto"
@@ -199,65 +207,110 @@ function App() {
             </div>
           ))}
         </Marquee>
-      </div><section id="novedades" className="bg-white py-40">
-  <div className="container mx-auto text-center">
-    <h2 className="text-3xl font-bold mb-8 text-black">Información</h2>
-    <div className="p-8 rounded-xl shadow-md inline-block">
-      <h3 className="text-2xl font-semibold text-gray-900 mb-1">Horarios de Atención</h3>
-      <div>
-        <h4 className="mb-3">
-          (Actualmente:{" "}
-          <span
-            className={`inline-block text-white font-semibold rounded-full ${
-              open ? "text-cyan-400" : "text-rose-500"
-            }`}
-          >
-            {open ? "Abierto" : "Cerrado"}
-          </span>
-          )
-        </h4>
       </div>
-      <p className="text-lg text-gray-700">
-        <span className="font-medium">Lunes a Sábados:</span> 9:30 a 12:00hs y 16:30 a 20:00hs
-      </p>
-      <p className="text-lg text-gray-700 mt-4">
-        <span className="font-medium">Dirección:</span> Balcarce, Calle 16 e/ 25 y 27 Nº893
-      </p>
-    </div>
-    {/* Añadir novedades aquí */}
-  </div>
-</section>
-
-      <section id="galeria" className="bg-gray-100 py-16">
+      <section id="cortes" className="bg-white pb-20 pt-40">
         <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4 text-black">Galería</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
-            <div className="relative bg-white shadow-lg">
-              <img src="https://via.placeholder.com/500x400" alt="Estilo 1" />
-              <h3 className="absolute bottom-0 w-full text-xl font-bold mb-2 text-black">
-                Estilo 1
+          <h2 className="text-3xl font-bold mb-6 text-black">Cortes</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="relative bg-white shadow-lg overflow-hidden group">
+              <img
+                src={style1}
+                alt="Estilo 1"
+                className="w-full h-auto object-cover"
+              />
+              <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold text-white bg-neutral-700 bg-opacity-75 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                Fade + Barba
               </h3>
             </div>
-            <div className="relative bg-white shadow-lg">
-              <img src="https://via.placeholder.com/500x400" alt="Estilo 1" />
-              <h3 className="absolute bottom-0 w-full text-xl font-bold mb-2 text-black">
-                Estilo 1
+            <div className="relative bg-white shadow-lg overflow-hidden group">
+              <img
+                src={style2}
+                alt="Estilo 2"
+                className="w-full h-auto object-cover"
+              />
+              <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold  text-white bg-neutral-700  bg-opacity-75 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                Fade medio + Barba + Textura
               </h3>
             </div>
-            <div className="relative bg-white shadow-lg">
-              <img src="https://via.placeholder.com/500x400" alt="Estilo 1" />
-              <h3 className="absolute bottom-0 w-full text-xl font-bold mb-2 text-black">
-                Estilo 1
+            <div className="relative bg-white shadow-lg overflow-hidden group">
+              <img
+                src={style3}
+                alt="Estilo 3"
+                className="w-full h-auto object-cover"
+              />
+              <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold  text-white bg-neutral-700  bg-opacity-75 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                Taper Fade + Diseño
               </h3>
             </div>
-            <div className="relative bg-white shadow-lg">
-              <img src="https://via.placeholder.com/500x400" alt="Estilo 1" />
-              <h3 className="absolute bottom-0 w-full text-xl font-bold mb-2 text-black">
-                Estilo 1
+            <div className="relative bg-white shadow-lg overflow-hidden group">
+              <img
+                src={style4}
+                alt="Estilo 4"
+                className="w-full h-auto object-cover"
+              />
+              <h3 className="absolute inset-0 flex items-center justify-center text-xl font-bold  text-white bg-neutral-700  bg-opacity-75 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                Low Taper
               </h3>
             </div>
           </div>
         </div>
+      </section>
+      <section id="novedades" className="bg-gray-100 py-20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-8 text-black">Información</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Estado del Local */}
+            <div className="p-8 bg-white rounded-xl shadow-md">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                Estado del Local
+              </h3>
+              <p className="text-lg mb-4">
+                {open ? "¡Estamos abiertos!" : "Actualmente estamos cerrados."}
+              </p>
+            </div>
+
+            {/* Horarios de Atención */}
+            <div className="p-8 bg-white rounded-xl shadow-md">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                Horarios de Atención
+              </h3>
+              <p className="text-lg text-gray-700">
+                <span className="font-medium">Lunes a Sábados:</span> 9:30 a
+                12:00hs y 16:30 a 20:00hs
+              </p>
+            </div>
+
+            {/* Dirección */}
+            <div className="p-8 bg-white rounded-xl shadow-md">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                Dirección
+              </h3>
+              <p className="text-lg text-gray-700">
+                Calle 16 e/ 25 y 27 Nº893, Balcarce
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <MapContainer
+          center={position}
+          zoom={17}
+          style={{ height: "400px", width: "100%" }}
+          scrollWheelZoom={false}
+          doubleClickZoom={false}
+          dragging={false}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position}>
+            <Popup>La Barber - FYK</Popup>
+          </Marker>
+        </MapContainer>
       </section>
 
       <section id="contacto" className="bg-white py-16">
